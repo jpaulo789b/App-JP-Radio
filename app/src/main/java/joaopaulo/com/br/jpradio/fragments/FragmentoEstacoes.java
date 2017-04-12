@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import joaopaulo.com.br.jpradio.R;
+import joaopaulo.com.br.jpradio.adapters.AdaptadorEstacoes;
+import joaopaulo.com.br.jpradio.services.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,34 +19,24 @@ import joaopaulo.com.br.jpradio.R;
  * create an instance of this fragment.
  */
 public class FragmentoEstacoes extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    public static final String ARGESTACAO = "TIPO_DE_ESTACAO";
+    public static final int ESTACOES_TOP = 0;
+    public static final int ESTACOES_MID = 1;
+    public static final int ESTACOES_BOT = 2;
+
+    private int tipoDeEstacao;
 
 
     public FragmentoEstacoes() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentoEstacoes.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentoEstacoes newInstance(String param1, String param2) {
+    public static FragmentoEstacoes newInstance(int tipoDeEstacao) {
         FragmentoEstacoes fragment = new FragmentoEstacoes();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARGESTACAO,tipoDeEstacao);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,8 +45,7 @@ public class FragmentoEstacoes extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            this.tipoDeEstacao = getArguments().getInt(ARGESTACAO);
         }
     }
 
@@ -69,6 +60,19 @@ public class FragmentoEstacoes extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         recyclerView.setLayoutManager(linearLayoutManager);
+
+
+
+        AdaptadorEstacoes adaptadorEstacoes;
+//        = new AdaptadorEstacoes();
+        if (tipoDeEstacao == ESTACOES_TOP){
+            adaptadorEstacoes = new AdaptadorEstacoes(DataService.getInstance().getEstacoesTOP());
+        }else if(tipoDeEstacao == ESTACOES_MID){
+            adaptadorEstacoes = new AdaptadorEstacoes(DataService.getInstance().getEstacoesMID());
+        }else{
+            adaptadorEstacoes = new AdaptadorEstacoes(DataService.getInstance().getEstacoesBOT());
+        }
+        recyclerView.setAdapter(adaptadorEstacoes);
         return view;
     }
 
