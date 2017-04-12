@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import joaopaulo.com.br.jpradio.R;
+import joaopaulo.com.br.jpradio.activities.MainActivity;
 import joaopaulo.com.br.jpradio.holders.HolderEstacoesView;
 import joaopaulo.com.br.jpradio.model.Estacao;
 
@@ -31,10 +32,21 @@ public class AdaptadorEstacoes extends RecyclerView.Adapter<HolderEstacoesView>{
         return new HolderEstacoesView(card_estaccao);
     }
 
+
+
     @Override
-    public void onBindViewHolder(HolderEstacoesView holder, int position) {
-        Estacao estacao = estacoes.get(position);
+    public void onBindViewHolder(HolderEstacoesView holder, final int position) {
+
+        final Estacao estacao = estacoes.get(position);
         holder.updateViewUI(estacao);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getMainActivity().carregarTelaDeDetalhes(estacao);
+            }
+        });
+
+
     }
 
     @Override

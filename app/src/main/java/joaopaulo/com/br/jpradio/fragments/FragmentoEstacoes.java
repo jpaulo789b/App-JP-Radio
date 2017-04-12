@@ -1,6 +1,7 @@
 package joaopaulo.com.br.jpradio.fragments;
 
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -59,6 +60,7 @@ public class FragmentoEstacoes extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
+        recyclerView.addItemDecoration(new HorizontalDecoracao(30));
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
@@ -76,4 +78,19 @@ public class FragmentoEstacoes extends Fragment {
         return view;
     }
 
+}
+
+class HorizontalDecoracao extends RecyclerView.ItemDecoration{
+    public final int ESPACAMENTO;
+
+    public HorizontalDecoracao(int ESPACAMENTO) {
+        this.ESPACAMENTO = ESPACAMENTO;
+    }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect,view,parent,state);
+            outRect.right = ESPACAMENTO;
+
+    }
 }
